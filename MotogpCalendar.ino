@@ -13,12 +13,27 @@
 #include "RTClib.h"
 RTC_DS1307 rtc;
 
+// This will need to change to the mobile access point in production
+//const char* ssid     = "WiFi-2BAC";        // The SSID (name) of the Wi-Fi network you want to connect to
+char ssid[]     = "WiFi-2BAC";        // The SSID (name) of the Wi-Fi network you want to connect to
+const char* password = "10810491";        // The password of the Wi-Fi network
+//String ssid = "WiFi-2BAC";
+const char* host = "worldtimeapi.org";
+
+
 //23-02-2021
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-String raceDates[] = {"20210302", "20210306", "20210319", "20210328", "20210404", "20210412", "20210418", "20210502", "20210516", "20210530", "20210606", "20210620", "20210627", "20210711", "20210815", "20210829", "20210912", "20210919", "20211003", "20211010", "20211024", "20211031", "20211114", "202100PPD", "202100PPD", "202100RES"};
-String circuitTLA[] = {"Jer", "Los", "Los", "Los", "Los", "Jer", "Alg", "Jer", "LMa", "Mug", "Cat", "Sac", "Ass", "Kym", "RBR", "Sil", "Ara", "Mis", "Mot", "Cha", "PIs", "Sep", "Ric", "Hon", "Ame", "Man"};
-String circuitAbbreviation[] = {" Losail"," Losail","Portugal","Spain"," France","Italy","Spain","Germany","Netherlands","Finland","Austria","Great Britain","Spain","Italy","Japan","Thailand","Australia","Malaysia"," Spain"};
-String countries[] = {"SPAIN", "QATAR", "QATAR", "QATAR", "QATAR", "SPAIN", "PORTUGAL", "SPAIN", "FRANCE", "ITALY", "SPAIN", "GERMANY", "NETHERLANDS", "FINLAND", "AUSTRIA", "GREAT BRITAIN", "SPAIN", "ITALY", "JAPAN", "THAILAND", "AUSTRALIA", "MALAYSIA", "SPAIN", "ARGENTINA", "UNITED STATES", "INDONESIA"};
+//String raceDates[] = {"20210302", "20210306", "20210319", "20210328", "20210404", "20210412", "20210418", "20210502", "20210516", "20210530", "20210606", "20210620", "20210627", "20210711", "20210815", "20210829", "20210912", "20210919", "20211003", "20211010", "20211024", "20211031", "20211114", "202100PPD", "202100PPD", "202100RES"};
+//String circuitTLA[] = {"Jer", "Los", "Los", "Los", "Los", "Jer", "Alg", "Jer", "LMa", "Mug", "Cat", "Sac", "Ass", "Kym", "RBR", "Sil", "Ara", "Mis", "Mot", "Cha", "PIs", "Sep", "Ric", "Hon", "Ame", "Man"};
+//String circuitAbbreviation[] = {" Losail"," Losail","Portugal","Spain"," France","Italy","Spain","Germany","Netherlands","Finland","Austria","Great Britain","Spain","Italy","Japan","Thailand","Australia","Malaysia"," Spain"};
+//String countries[] = {"SPAIN", "QATAR", "QATAR", "QATAR", "QATAR", "SPAIN", "PORTUGAL", "SPAIN", "FRANCE", "ITALY", "SPAIN", "GERMANY", "NETHERLANDS", "FINLAND", "AUSTRIA", "GREAT BRITAIN", "SPAIN", "ITALY", "JAPAN", "THAILAND", "AUSTRALIA", "MALAYSIA", "SPAIN", "ARGENTINA", "UNITED STATES", "INDONESIA"};
+//String circuits[] = {"Circuito de Jerez - Angel Nieto", "Losail International Circuit", "Losail International Circuit", "Losail International Circuit", "Losail International Circuit", "Circuito de Jerez - Angel Nieto", "Algarve International Circuit", "Circuito de Jerez - Angel Nieto", "Le Mans", "Autodromo Internazionale del Mugello", "Circuit de Barcelona-Catalunya", "Sachsenring", "TT Circuit Assen", "KymiRing", "Red Bull Ring - Spielberg", "Silverstone Circuit", "MotorLand Aragon", "Misano World Circuit Marco Simoncelli", "Twin Ring Motegi", "Chang International Circuit", "Phillip Island", "Sepang International Circuit", "Circuit Ricardo Tormo", "Termas de Rio Hondo", "Circuit Of The Americas", "Mandalika International Street Circuit"};
+//String raceName[] = {"Jerez MotoE Official Test 1", "Qatar MotoGP Official Test", "Qatar Moto2 & Moto3 Official Test", "Grand Prix of Qatar", "Grand Prix of Doha", "Jerez MotoE Official Test 2", "Grande Prmio de Portugal", "Gran Premio Red Bull de Espaa", "SHARK Helmets Grand Prix de France", "Gran Premio d'Italia Oakley", "Gran Premi Monster Energy de Catalunya", "Liqui Moly Motorrad Grand Prix Deutschland", "Motul TT Assen", "Grand Prix of Finland", "Motorrad Grand Prix von sterreich", "British Grand Prix", "Gran Premio de Aragn", "Gran Premio Octo di San Marino e della Riviera di Rimini", "Motul Grand Prix of Japan", "OR Thailand Grand Prix", "Australian Motorcycle Grand Prix", "Malaysia Motorcycle Grand Prix", "Gran Premio Motul de la Comunitat Valenciana", "Gran Premio de la Repblica Argentina", "Grand Prix of the Americas"};
+
+String raceDates[] = {"20221118", "20220205", "20220211", "20220219", "20220306", "20220320", "20220403", "20220410", "20220424", "20220501", "20220502", "20220515", "20220529", "20220605", "20220606", "20220619", "20220626", "20220807", "20220821", "20220904", "20220906", "20220918", "20220925", "20221002", "20221016", "20221023", "20221106"};
+String circuitTLA[] = {"JER", "SEP", "MAN", "POR", "QAT", "IND", "ARG", "COT", "POR", "ESP", "JER", "FRA", "ITA", "CAT", "CTT", "GER", "ASS", "GBR", "AUS", "RIM", "MIS", "ARA", "JAP", "THA", "AUS", "MAL", "VAL"};
+String circuitAbbreviation[] = {"Jerez", "Sepang", "Mandalika", "Portimao", "Qatar", "Pertamina", "Argentina", "Americas", "Portugal", "Red Bull", "Jerez", "LeMANS", "Mugello", "Catalunya", "Catalunya", "Deutschland", "Assen", "SILVERSTONE", "RED BULL", "MISANO", "MISANO TEST", "ARAGON", "MOTEGI", "THAILAND", "PHILLIP ISLAND", "MALAYSIA", "Valenciana"};
+String countries[] = {"SPAIN", "MALAYSIA", "INDONESIA", "PORTUGAL", "QATAR", "INDONESIA", "ARGENTINA", "UNITED STATES", "PORTUGAL", "SPAIN", "SPAIN", "FRANCE", "ITALY", "SPAIN", "SPAIN", "GERMANY", "NETHERLANDS", "GREAT BRITAIN", "AUSTRIA", "ITALY", "ITALY", "SPAIN", "JAPAN", "THAILAND", "AUSTRALIA", "MALAYSIA", "SPAIN"};
 String circuits[] = {"Circuito de Jerez - Angel Nieto", "Losail International Circuit", "Losail International Circuit", "Losail International Circuit", "Losail International Circuit", "Circuito de Jerez - Angel Nieto", "Algarve International Circuit", "Circuito de Jerez - Angel Nieto", "Le Mans", "Autodromo Internazionale del Mugello", "Circuit de Barcelona-Catalunya", "Sachsenring", "TT Circuit Assen", "KymiRing", "Red Bull Ring - Spielberg", "Silverstone Circuit", "MotorLand Aragon", "Misano World Circuit Marco Simoncelli", "Twin Ring Motegi", "Chang International Circuit", "Phillip Island", "Sepang International Circuit", "Circuit Ricardo Tormo", "Termas de Rio Hondo", "Circuit Of The Americas", "Mandalika International Street Circuit"};
 String raceName[] = {"Jerez MotoE Official Test 1", "Qatar MotoGP Official Test", "Qatar Moto2 & Moto3 Official Test", "Grand Prix of Qatar", "Grand Prix of Doha", "Jerez MotoE Official Test 2", "Grande Prmio de Portugal", "Gran Premio Red Bull de Espaa", "SHARK Helmets Grand Prix de France", "Gran Premio d'Italia Oakley", "Gran Premi Monster Energy de Catalunya", "Liqui Moly Motorrad Grand Prix Deutschland", "Motul TT Assen", "Grand Prix of Finland", "Motorrad Grand Prix von sterreich", "British Grand Prix", "Gran Premio de Aragn", "Gran Premio Octo di San Marino e della Riviera di Rimini", "Motul Grand Prix of Japan", "OR Thailand Grand Prix", "Australian Motorcycle Grand Prix", "Malaysia Motorcycle Grand Prix", "Gran Premio Motul de la Comunitat Valenciana", "Gran Premio de la Repblica Argentina", "Grand Prix of the Americas"};
 
@@ -96,30 +111,10 @@ byte n0[] ={56,68,68,68,68,68,68,56};
 byte slash[] ={128,64,32,16,8,4,2,1};
 byte colon[] ={0,24,24,0,0,0,24,24};
 
-// This will need to change to the mobile access point in production
-//const char* ssid     = "WiFi-2BAC";        // The SSID (name) of the Wi-Fi network you want to connect to
-char ssid[]     = "WiFi-2BAC";        // The SSID (name) of the Wi-Fi network you want to connect to
-const char* password = "10810491";        // The password of the Wi-Fi network
 
-const char* host = "worldtimeapi.org";
 String line;
 
-void ConnectToWifi(){
-     WiFi.begin(ssid, password);             // Connect to the network
-     Serial.print("Connecting to ");
-     Serial.print(ssid); Serial.println(" ...");
-     
-     int i = 0;
-     while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
-     delay(1000);
-     Serial.print(++i); Serial.print(' ');
-     }
-     
-     Serial.println('\n');
-     Serial.println("Connection established!");  
-     Serial.print("IP address:\t");
-     Serial.println(WiFi.localIP());         // Send the IP address of the ESP8266 to the computer     
-}
+
 
 void maxIni (byte reg, byte col) {    // put the initialisation to all the max 7219 in the system
      int c = 0;
@@ -345,8 +340,10 @@ void displayAString(String displayString) {
            maxPut(8 - c, getByteValue(currentLetter2, c)); // These are in reverse order - ie you need to load right to left
            maxPut(8 - c, getByteValue(currentLetter1, c)); 
            digitalWrite(load, LOW);
+           yield();
            delay(1);
            digitalWrite(load,HIGH);
+           yield();
            delay(10);    
      }                       
 }
@@ -409,6 +406,33 @@ int daysTillNextRace(){
      return daysTillNextRace - 2;
 }
 
+void ConnectToWifi(){
+     delay(3000);
+     Serial.println("Connecting to Wifi");
+     Serial.println("wifi begin");
+//     WiFi.begin(ssid, password);             // Connect to the network
+     WiFi.begin("WiFi-2BAC", "10810491");             // Connect to the network
+     
+     Serial.println("connecting");
+     Serial.print("Connecting to ");
+     Serial.print(ssid); Serial.println(" ...");
+
+     Serial.println("loop");
+     int i = 0;
+     while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
+     yield();
+     delay(1000);
+     Serial.println("print ");
+     Serial.print(++i); Serial.print(' ');
+     }
+
+     Serial.println("end wifi connect");
+     Serial.println('\n');
+     Serial.println("Connection established!");  
+     Serial.print("IP address:\t");
+     Serial.println(WiFi.localIP());         // Send the IP address of the ESP8266 to the computer     
+}
+
 void setup () {
      pinMode(dataIn, OUTPUT);
      pinMode(clockPin,  OUTPUT);
@@ -416,7 +440,7 @@ void setup () {
      digitalWrite(13, HIGH);  
      Serial.begin(115200);
      Wire.begin();
-     //rtc.adjust(DateTime(2021, 2, 23, 15, 38, 0));  // Use this to set the RTC if it loses time for some reason.
+//     rtc.adjust(DateTime(2022, 8, 27, 11, 11, 0));  // Use this to set the RTC if it loses time for some reason.
  
      //////////////////////////////////////////////initiation of the max 7219
      maxIni(max7219_reg_scanLimit, 0x07);      
@@ -429,51 +453,62 @@ void setup () {
      
      maxIni(max7219_reg_intensity, 0x0f & 0x0f);    // the first 0x0f is the value you can set                   
 
+//     ConnectToWifi();
+
 //     getDateFromWeb();
 //     getNextRace();
 }
  
  void loop () {    
-     DateTime now = rtc.now();
-     String thisDay = "";
-     String thisMonth = "";     
-     String dayVal = String(now.day());
-     String monthVal = String(now.month());
-     Serial.println("dayVal");
-     Serial.println(dayVal);
-     Serial.println("monthVal");
-     Serial.println(monthVal);
-     Serial.println(String(now.year()));
-     Serial.println("----------------------");
+//     DateTime now = rtc.now();
+//     String thisDay = "";
+//     String thisMonth = "";     
+//     String dayVal = String(now.day());
+//     String monthVal = String(now.month());
+//     Serial.println("dayVal");
+//     Serial.println(dayVal);
+//     Serial.println("monthVal");
+//     Serial.println(monthVal);
+//     Serial.println(String(now.year()));
+//     Serial.println("----------------------");
+
+
+     Serial.println("-------------------------------------------------------");
+     Serial.println("WORKING");
+     Serial.println("-------------------------------------------------------");
      
-     if (now.day() < 10){
-          thisDay = "0" + dayVal;
-     } else {
-          thisDay = dayVal;
-     }
      
-     if (now.month() < 10){
-          thisMonth = "0" + monthVal;
-     } else {
-          thisMonth = monthVal;
-     }
-    
-     dateToday = thisDay + "-" + thisMonth + "-" + String(now.year());
-          
-     String daysTillWUP = "";
-     displayAString(circuitAbbreviation[getNextRace()]);
-     delay(Delay);
-     if(daysTillNextRace() > 2){
-          daysTillWUP = String(daysTillNextRace()) + " days";
-     }else{
-          if(daysTillNextRace() == 1){
-               daysTillWUP = String(daysTillNextRace()) + " day";
-          } else {
-               daysTillWUP = "  FP1";
-          }
-     }
-     displayAString(daysTillWUP);
-     delay(Delay);
+//     if (now.day() < 10){
+//          thisDay = "0" + dayVal;
+//     } else {
+//          thisDay = dayVal;
+//     }
+//     
+//     if (now.month() < 10){
+//          thisMonth = "0" + monthVal;
+//     } else {
+//          thisMonth = monthVal;
+//     }
+//    
+//     dateToday = thisDay + "-" + thisMonth + "-" + String(now.year());
+//          
+//     String daysTillWUP = "";
+//     displayAString(circuitAbbreviation[getNextRace()]);
+//     delay(Delay);
+//     if(daysTillNextRace() > 2){
+//          daysTillWUP = String(daysTillNextRace()) + " days";
+//     }else{
+//          if(daysTillNextRace() == 1){
+//               daysTillWUP = String(daysTillNextRace()) + " day";
+//          } else {
+//               daysTillWUP = "  FP1";
+//          }
+//     }
+//     displayAString(daysTillWUP);
+//     yield();
+//     delay(Delay);
+
+     delay(1500);
  }
 
 
